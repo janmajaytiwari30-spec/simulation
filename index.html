@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physics Simulation: Laser Security System</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-left">
+        <i class="ph ph-atom"></i>
+        <h1>Physics Lab Simulator</h1>
+        <span class="badge">LASER SECURITY EXPERIMENT</span>
+      </div>
+      <div class="header-right">
+        <div class="status-indicator">
+          <div class="status-dot"></div>
+          <span id="system-status">SYSTEM ONLINE</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      
+      <!-- Side Panel for Physics Explanations -->
+      <aside class="panel physics-panel">
+        <div class="panel-section">
+          <h2><i class="ph ph-exam"></i> Experiment Physics</h2>
+          <p class="description">
+            This module simulates a <strong>Photoelectric Security Array</strong>. When the coherent laser wavelength hits the semiconductor junction of the <strong>Light Dependent Resistor (LDR)</strong>, valence electrons are excited, creating electron-hole pairs and drastically lowering the resistance.
+          </p>
+        </div>
+
+        <div class="panel-section data-readout">
+          <h2><i class="ph ph-activity"></i> Live Circuit Telemetry</h2>
+          
+          <div class="metric-group">
+            <label>LDR Resistance (R<sub>LDR</sub>)</label>
+            <div class="metric-value">
+              <span id="val-res">10.0</span> <span class="unit">MΩ</span>
+            </div>
+            <div class="progress-bar"><div class="fill" id="bar-res" style="width:100%"></div></div>
+          </div>
+
+          <div class="metric-group">
+            <label>Output Voltage (V<sub>OUT</sub>)</label>
+            <div class="metric-value">
+              <span id="val-vol">0.05</span> <span class="unit">V</span>
+            </div>
+            <div class="progress-bar"><div class="fill" id="bar-vol" style="width:1%"></div></div>
+          </div>
+
+          <div class="control-row" style="margin-bottom: 20px; border-top: 1px solid var(--border); padding-top: 15px;">
+            <label>Input Voltage (V<sub>IN</sub>)</label>
+            <input type="range" id="slider-vin" min="1" max="12" step="0.5" value="5.0">
+            <span class="range-val" id="disp-vin">5.0 V</span>
+          </div>
+
+          <div class="alarm-state" id="alarm-box">
+            <i class="ph ph-siren" id="alarm-icon"></i>
+            <span id="alarm-text">ALARM TRIGGERED (BEAM BROKEN)</span>
+          </div>
+          <button class="btn btn-secondary" id="reset-alarm" style="width: 100%; margin-top: 10px; display: none;"><i class="ph ph-check-circle"></i> Acknowledge & Reset Alarm</button>
+
+          <div class="circuit-diagram">
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px;">Voltage Divider Circuit:</p>
+            <div class="formula">
+              V<sub>OUT</sub> = V<sub>IN</sub> &times; <frac><top>R<sub>1</sub></top><bottom>R<sub>1</sub> + R<sub>LDR</sub></bottom></frac>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section controls">
+          <h2><i class="ph ph-sliders"></i> Environment Setup</h2>
+          
+          <div class="control-row">
+            <label>Smoke / Tyndall Effect</label>
+            <label class="switch">
+              <input type="checkbox" id="toggle-smoke" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+
+          <div class="control-row">
+            <label>Refractive Index (Air)</label>
+            <input type="range" min="1" max="1.5" step="0.01" value="1.00" disabled title="Standard Air = 1.0">
+            <span class="range-val">1.00 n</span>
+          </div>
+
+          <div class="tool-spawners">
+            <button class="btn btn-secondary" id="spawn-mirror"><i class="ph ph-square-split-vertical"></i> Add Mirror</button>
+            <button class="btn btn-secondary" id="spawn-intruder"><i class="ph ph-hand"></i> Add Obstacle</button>
+            <button class="btn btn-danger" id="reset-sim"><i class="ph ph-arrow-counter-clockwise"></i> Reset</button>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Interactive Canvas Area -->
+      <section class="simulation-area">
+        <div class="canvas-wrapper">
+          <canvas id="sim-canvas"></canvas>
+          <div class="grid-overlay"></div>
+          
+          <div class="canvas-hints">
+            <strong>DRAG</strong> objects to move &bull; <strong>DBL CLICK</strong> mirrors to rotate &bull; <strong>SCROLL</strong> to rotate mirror finely
+          </div>
+
+          <div class="canvas-status-light">
+            <div class="light-bulb safe" id="big-indicator"></div>
+            <span>ALARM INDICATOR</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
