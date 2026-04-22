@@ -1,0 +1,373 @@
+:root {
+  --bg-deep: #0D1117;
+  --bg-panel: #161B22;
+  --bg-lighter: #21262D;
+  --accent: #2F81F7;
+  --accent-glow: rgba(47, 129, 247, 0.4);
+  --laser-red: #FF4A4A;
+  --laser-glow: rgba(255, 74, 74, 0.6);
+  --safe-green: #3FB950;
+  --alarm-red: #F85149;
+  --text-main: #E6EDF3;
+  --text-muted: #8B949E;
+  --border: #30363D;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Typography & General Classes */
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; }
+i { font-size: 1.2rem; vertical-align: middle; margin-right: 4px; }
+
+/* HEADER */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left i {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.header-left h1 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--safe-green);
+  box-shadow: 0 0 8px var(--safe-green);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.status-dot.alarm {
+  background: var(--alarm-red);
+  box-shadow: 0 0 8px var(--alarm-red);
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  from { box-shadow: 0 0 5px var(--alarm-red); opacity: 0.8; }
+  to { box-shadow: 0 0 15px var(--alarm-red); opacity: 1; }
+}
+
+/* MAIN LAYOUT */
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* PANEL */
+.physics-panel {
+  width: 380px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.panel-section {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-section h2 {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.description strong {
+  color: var(--text-main);
+}
+
+/* TELEMETRY */
+.metric-group {
+  margin-bottom: 1rem;
+}
+
+.metric-group label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 4px 0;
+}
+
+.metric-value .unit {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--bg-lighter);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar .fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear, background 0.3s;
+}
+
+.alarm-state {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid var(--alarm-red);
+  color: var(--alarm-red);
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.alarm-state.safe {
+  background: rgba(63, 185, 80, 0.1);
+  border-color: var(--safe-green);
+  color: var(--safe-green);
+}
+
+.formula {
+  background: var(--bg-deep);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 4px; }
+top { border-bottom: 1px solid var(--text-main); padding: 0 2px; display: block; font-size: 0.7rem; }
+bottom { padding: 0 2px; display: block; font-size: 0.7rem; }
+
+/* CONTROLS */
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.range-val { font-size: 0.8rem; color: var(--text-muted); width: 40px; text-align: right; }
+input[type="range"] { flex: 1; margin: 0 10px; accent-color: var(--accent); cursor: pointer; }
+
+/* Switch Toggle */
+.switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-lighter); transition: .4s; border-radius: 34px; border: 1px solid var(--border); }
+.slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--accent); border-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(18px); }
+
+.tool-spawners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-secondary {
+  background: var(--bg-lighter);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: #2c323a; }
+
+.btn-danger {
+  background: rgba(248, 81, 73, 0.1);
+  color: var(--alarm-red);
+  border: 1px solid var(--alarm-red);
+}
+.btn-danger:hover { background: rgba(248, 81, 73, 0.2); }
+
+/* CANVAS AREA */
+.simulation-area {
+  flex: 1;
+  position: relative;
+  background-color: #07090b; /* Very dark grid background */
+}
+
+.canvas-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+}
+
+#sim-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+#sim-canvas:active {
+  cursor: grabbing;
+}
+
+.canvas-hints {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+}
+.canvas-hints strong {
+  color: var(--text-main);
+}
+
+/* BIG CANVAS INDICATOR */
+.canvas-status-light {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.light-bulb {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  transition: all 0.2s ease;
+}
+
+.light-bulb.safe {
+  background: var(--safe-green);
+  box-shadow: 0 0 20px var(--safe-green);
+}
+
+.light-bulb.alarm {
+  background: var(--alarm-red);
+  box-shadow: 0 0 40px var(--alarm-red);
+  animation: strobe 0.3s steps(2, start) infinite;
+}
+
+@keyframes strobe {
+  0% { opacity: 1; box-shadow: 0 0 40px var(--alarm-red), 0 0 80px rgba(248, 81, 73, 0.4); }
+  50% { opacity: 0.1; box-shadow: none; }
+  100% { opacity: 1; box-shadow: 0 0 40px var(--alarm-red), 0 0 80px rgba(248, 81, 73, 0.4); }
+}
